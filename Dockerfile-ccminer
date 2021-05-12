@@ -16,8 +16,13 @@ ENV     TZ="UTC"
 
 WORKDIR	/usr/bin
 
-COPY    ccminer .
+# copy binary from source build
+COPY	--from=z8bulon/ccminer:sourcebuild /usr/bin/ccminer /usr/bin/ccminer
 
+# or copy from github
+# COPY    ccminer .
+
+# Install required software and clean up
 RUN     zypper install -y --no-recommends libcurl4 openssl libjansson4 libstdc++6 libgomp1 glibc glibc-extra && zypper clean
 
 # create user and group 'ccminer'.
@@ -25,6 +30,7 @@ RUN	/usr/sbin/groupadd -r -g ${GID} ccminer \
 	&& /usr/sbin/useradd -r -s /sbin/nologin -c 'ccminer user' -d /var/lib/ccminer -u ${UID} ccminer \
 	&& /usr/sbin/usermod -a -G ccminer ccminer
 
+# Do not run as root but as user
 USER    ccminer
 
 STOPSIGNAL SIGTERM

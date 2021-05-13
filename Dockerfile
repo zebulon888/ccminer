@@ -6,7 +6,7 @@ LABEL   CCMINER_TYPE=CPU_VERUS2.2
 
 ENV	ALGO=verus
 ENV     REGION="stratum+tcp://verushash.eu.mine.zergpool.com:3300"
-ENV     PAYOUT=ARRR
+ENV     PAYOUT=ARRR     # use XMR for Monreo
 ENV	COIN=VRSC
 ENV     ADDRESS=
 ENV     ID=miner_#1

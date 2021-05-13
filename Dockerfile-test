@@ -1,0 +1,43 @@
+# ccminer for use
+FROM    opensuse/leap:latest
+
+LABEL   CCMINER_VERSION=3.7.1.1
+LABEL   CCMINER_TYPE=CPU_VERUS2.2
+
+ENV	    ALGO=verus
+ENV     REGION="stratum+tcp://verushash.eu.mine.zergpool.com:3300"
+ENV     PAYOUT=ARRR
+ENV	    COIN=VRSC
+ENV     ADDRESS=
+ENV     MODE=
+ENV     DIFF=
+ENV     PL=
+ENV     ID=miner_#1
+ENV     THREADS=2
+ENV     UID=1001
+ENV     GID=1001
+ENV     GROUP_ADD=100
+ENV     TZ="UTC"
+
+WORKDIR	/usr/bin
+
+# copy binary from source build
+COPY	--from=z8bulon/ccminer:sourcebuild /usr/bin/ccminer /usr/bin/ccminer
+
+# or copy from github
+# COPY    ccminer .
+
+# Install required software and clean up
+RUN     zypper install -y --no-recommends libcurl4 openssl libjansson4 libstdc++6 libgomp1 glibc glibc-extra && zypper clean
+
+# create user and group 'ccminer'.
+RUN	/usr/sbin/groupadd -r -g ${GID} ccminer \
+	&& /usr/sbin/useradd -r -s /sbin/nologin -c 'ccminer user' -d /var/lib/ccminer -u ${UID} ccminer \
+	&& /usr/sbin/usermod -a -G ccminer ccminer
+
+# Do not run as root but as user
+USER    ccminer
+
+STOPSIGNAL SIGTERM
+
+ENTRYPOINT exec ccminer -a ${ALGO} -o ${REGION} -u ${ADDRESS} -p c=${PAYOUT},mc=${COIN},m=${MODE},sd=${DIFF},pl=${PL},ID=${ID} -t ${THREADS}

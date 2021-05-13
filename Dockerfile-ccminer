@@ -9,6 +9,9 @@ ENV     REGION="stratum+tcp://verushash.eu.mine.zergpool.com:3300"
 ENV     PAYOUT=ARRR
 ENV	COIN=VRSC
 ENV     ADDRESS=
+ENV     MODE=
+ENV     DIFF=
+ENV     PL=
 ENV     ID=miner_#1
 ENV     THREADS=2
 ENV     UID=1001
@@ -37,4 +40,4 @@ USER    ccminer
 
 STOPSIGNAL SIGTERM
 
-ENTRYPOINT exec ccminer -a ${ALGO} -o ${REGION} -u ${ADDRESS} -p c=${PAYOUT},mc=${COIN},ID=${ID} -t ${THREADS}
+ENTRYPOINT exec ccminer -a ${ALGO} -o ${REGION} -u ${ADDRESS} -p c=${PAYOUT},mc=${COIN},m=${MODE},sd=${DIFF},pl=${PL},ID=${ID} -t ${THREADS}

@@ -4,8 +4,10 @@ FROM    opensuse/leap:latest
 LABEL   CCMINER_VERSION=3.7.1.1
 LABEL   CCMINER_TYPE=CPU_VERUS2.2
 
+ENV	ALGO=verus
 ENV     REGION="stratum+tcp://verushash.eu.mine.zergpool.com:3300"
 ENV     PAYOUT=ARRR
+ENV	COIN=VRSC
 ENV     ADDRESS=
 ENV     ID=miner_#1
 ENV     THREADS=2
@@ -35,4 +37,4 @@ USER    ccminer
 
 STOPSIGNAL SIGTERM
 
-ENTRYPOINT exec ccminer -a verus -o ${REGION} -u ${ADDRESS} -p c=${PAYOUT},mc=VRSC,ID=${ID} -t ${THREADS}
+ENTRYPOINT exec ccminer -a ${ALGO} -o ${REGION} -u ${ADDRESS} -p c=${PAYOUT},mc=${COIN},ID=${ID} -t ${THREADS}

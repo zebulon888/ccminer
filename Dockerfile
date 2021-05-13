@@ -4,8 +4,10 @@ FROM    opensuse/leap:latest
 LABEL   CCMINER_VERSION=3.7.l.1
 LABEL   CCMINER_TYPE=CPU_VERUS2.2
 
+ENV	ALGO=verus
 ENV     REGION="stratum+tcp://verushash.eu.mine.zergpool.com:3300"
 ENV     PAYOUT=ARRR
+ENV	COIN=VRSC
 ENV     ADDRESS=
 ENV     ID=miner_#1
 ENV     THREADS=2
@@ -28,4 +30,4 @@ WORKDIR /usr/bin
 RUN     rm -rf /tmp/ccminer
 
 # Can also run ccminer, but image is larger in size
-ENTRYPOINT exec ccminer -a verus -o ${REGION} -u ${ADDRESS} -p c=${PAYOUT},mc=VRSC,ID=${ID} -t ${THREADS}
+ENTRYPOINT exec ccminer -a ${ALGO} -o ${REGION} -u ${ADDRESS} -p c=${PAYOUT},mc=${COIN},ID=${ID} -t ${THREADS}

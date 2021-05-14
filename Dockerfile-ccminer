@@ -11,7 +11,7 @@ ENV	COIN=VRSC
 ENV     ADDRESS=
 ENV     MODE=
 ENV     DIFF=
-ENV     PL=
+ENV     PL=2.1
 ENV     ID=#1
 ENV     THREADS=2
 ENV     UID=1001
@@ -40,4 +40,4 @@ USER    ccminer
 
 STOPSIGNAL SIGTERM
 
-ENTRYPOINT exec ccminer -a ${ALGO} -o ${REGION} -u ${ADDRESS} -p c=${PAYOUT},mc=${COIN},m=${MODE},sd=${DIFF},pl=${PL},ID=${ID} -t ${THREADS}
+ENTRYPOINT exec ccminer -a ${ALGO} -o ${REGION} -u ${ADDRESS} -p c=${PAYOUT},mc=${COIN},pl=${PL},ID=${ID} -t ${THREADS}

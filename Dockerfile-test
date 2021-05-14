@@ -7,9 +7,9 @@ LABEL   CCMINER_TYPE=CPU_VERUS2.2
 ENV	    ALGO=verus
 ENV     REGION="stratum+tcp://verushash.eu.mine.zergpool.com:3300"
 ENV     PAYOUT=ARRR
-ENV	    COIN=VRSC
+ENV	COIN=VRSC
 ENV     ADDRESS=
-ENV     MODE=
+ENV     MODE=regular
 ENV     DIFF=
 ENV     PL=
 ENV     ID=miner_#1
@@ -44,4 +44,4 @@ STOPSIGNAL SIGTERM
 
 # ENTRYPOINT exec ccminer -a ${ALGO} -o ${REGION} -u ${ADDRESS} -p c=${PAYOUT},mc=${COIN},m=${MODE},sd=${DIFF},pl=${PL},ID=${ID} -t ${THREADS}
 
-CMD	[supervisor]
+CMD	["supervisord"]

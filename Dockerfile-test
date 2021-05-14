@@ -23,12 +23,14 @@ WORKDIR	/usr/bin
 
 # copy binary from source build
 COPY	--from=z8bulon/ccminer:sourcebuild /usr/bin/ccminer /usr/bin/ccminer
-
 # or copy from github
 # COPY    ccminer .
 
+COPY	rootfs /
+
 # Install required software and clean up
-RUN     zypper install -y --no-recommends libcurl4 openssl libjansson4 libstdc++6 libgomp1 glibc glibc-extra && zypper clean
+RUN     zypper install -y --no-recommends libcurl4 openssl libjansson4 libstdc++6 libgomp1 glibc glibc-extra python3-pip \ 
+	&& pip install --upgrade pip && pip install supervisor && zypper clean
 
 # create user and group 'ccminer'.
 RUN	/usr/sbin/groupadd -r -g ${GID} ccminer \
@@ -40,4 +42,6 @@ USER    ccminer
 
 STOPSIGNAL SIGTERM
 
-ENTRYPOINT exec ccminer -a ${ALGO} -o ${REGION} -u ${ADDRESS} -p c=${PAYOUT},mc=${COIN},m=${MODE},sd=${DIFF},pl=${PL},ID=${ID} -t ${THREADS}
+# ENTRYPOINT exec ccminer -a ${ALGO} -o ${REGION} -u ${ADDRESS} -p c=${PAYOUT},mc=${COIN},m=${MODE},sd=${DIFF},pl=${PL},ID=${ID} -t ${THREADS}
+
+CMD	[supervisor]
